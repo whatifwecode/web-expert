@@ -1,0 +1,23 @@
+.user_item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  overflow: hidden;
+
+  &_name {
+    font-size: 16px;
+    font-family: "Andale Mono", serif;
+    font-weight: bolder;
+    text-transform: uppercase;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover {
+      color: teal;
+    }
+  }
+}

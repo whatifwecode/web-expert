@@ -1,0 +1,12 @@
+.IButton {
+    background-color: transparent;
+    border: 2px gray solid;
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: "Andale Mono", serif;
+    &:hover {
+        background-color: teal;
+     }
+}
