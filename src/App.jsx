@@ -1,10 +1,12 @@
 import UserList from "./components/user/UserList.jsx";
+import CreateUser from "./components/user/CreateUser.jsx";
 
 function App() {
 
   return (
       <div>
-        <UserList/>
+          <CreateUser />
+          <UserList/>
       </div>
 
   )

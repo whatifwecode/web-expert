@@ -18,15 +18,53 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
     }
 });
 
-export const fetchUserDetails = createAsyncThunk('users/fetchDetails', async (userId, { getState }) => {
-    const { loading } = getState().users;
-    if (loading === 'pending') return;
-
+export const fetchUserDetails = createAsyncThunk('users/fetchDetails', async (userId) => {
     try {
         const response = await fetch(`${BASE_URL}/users/${userId}`);
         return await response.json();
     } catch (error) {
         throw Error('Failed to fetch user details');
+    }
+});
+
+export const createUser = createAsyncThunk('users/createUser', async (userData) => {
+    try {
+        const response = await fetch(`${BASE_URL}/users`,{
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        })
+        return await response.json();
+    } catch (error) {
+        throw Error('Failed to create user')
+    }
+});
+
+export const removeUser = createAsyncThunk('users/removeUser', async (userId) => {
+    try {
+        const response = await fetch(`${BASE_URL}/users/${userId}`, {
+            method: 'DELETE'
+        })
+        return null;
+    } catch (error) {
+        throw Error('Failed to remove user')
+    }
+});
+
+export const updateUserDetails = createAsyncThunk('users/updateUserDetails', async ({ userId, updatedDetails }) => {
+    try {
+        const response = await fetch(`${BASE_URL}/users/${userId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedDetails)
+        });
+        return await response.json();
+    } catch (error) {
+        throw Error('Failed to update user details');
     }
 });
 
@@ -37,7 +75,7 @@ const usersSlice = createSlice({
     extraReducers(builder) {
         builder
             .addCase(fetchUsers.pending, (state) => {
-                state.status = 'loading';
+                state.status = 'pending';
             })
             .addCase(fetchUsers.fulfilled, (state, action) => {
                 state.status = 'succeeded';
@@ -56,6 +94,39 @@ const usersSlice = createSlice({
                 state.details[action.meta.arg] = action.payload;
             })
             .addCase(fetchUserDetails.rejected, (state, action) => {
+                state.status = 'failed';
+                state.errors = action.error.message;
+            })
+            .addCase(createUser.pending, (state) => {
+                state.status = 'loading'
+            })
+            .addCase(createUser.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.users.push(action.payload);
+            })
+            .addCase(createUser.rejected, (state, action) => {
+                state.status = 'failed';
+                state.errors = action.error.message;
+            })
+            .addCase(removeUser.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(removeUser.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.users = state.users.filter(user => user.id !== action.meta.arg)
+            })
+            .addCase(removeUser.rejected, (state, action) => {
+                state.status = 'failed';
+                state.errors = action.error.message;
+            })
+            .addCase(updateUserDetails.pending, (state) => {
+                state.status = 'pending';
+            })
+            .addCase(updateUserDetails.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.details[action.payload.id] = action.payload;
+            })
+            .addCase(updateUserDetails.rejected, (state, action) => {
                 state.status = 'failed';
                 state.errors = action.error.message;
             });

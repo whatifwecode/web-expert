@@ -1,0 +1,16 @@
+.create_user {
+  font-family: "Andale Mono", serif;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 0 auto;
+
+  &_title {
+    text-transform: uppercase;
+  }
+
+  &_msg {
+    font-size: 12px;
+    line-height: 24px;
+  }
+}
