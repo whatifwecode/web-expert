@@ -61,6 +61,12 @@ const UserDetails = ({ userId }) => {
                             <p>Zipcode: {userDetails.address.zipcode ?? 'N/A'}</p>
                         </>
                     )}
+                    {userDetails.address.geo && ( //We could easily send a request, but data is fake...
+                        <>
+                            <p>Latitude: {userDetails.address.geo.lat ?? 'N/A'}</p>
+                            <p>Longitude: {userDetails.address.geo.lng ?? 'N/A'}</p>
+                        </>
+                    )}
                     <p>Phone: {userDetails.phone ?? 'N/A'}</p>
                     <p>Website: {userDetails.website ?? 'N/A'}</p>
                     {userDetails.company && (
