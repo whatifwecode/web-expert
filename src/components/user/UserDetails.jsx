@@ -61,7 +61,7 @@ const UserDetails = ({ userId }) => {
                             <p>Zipcode: {userDetails.address.zipcode ?? 'N/A'}</p>
                         </>
                     )}
-                    {userDetails.address.geo && ( //We could easily send a request, but data is fake...
+                    {userDetails.address && userDetails.address.geo ( //We could easily send a request, but data is fake...
                         <>
                             <p>Latitude: {userDetails.address.geo.lat ?? 'N/A'}</p>
                             <p>Longitude: {userDetails.address.geo.lng ?? 'N/A'}</p>
